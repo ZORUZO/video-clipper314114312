@@ -30,6 +30,9 @@
     box-sizing: border-box;
     margin: 1rem 0;
     }
+    span {
+      background-color:yellow;
+    }
     </style>
     <meta name="robots" content="noindex" />
   <body>
@@ -41,7 +44,7 @@
       <div class="form-group">
         <form method="post" action="download" enctype="multipart/form-data">
           <div>
-            mp4かwavの形式のファイルを選択してください<br>
+            <span>mp4</span>か<span>wav</span>形式のファイルを選択してください<br>
             <input id="file" type="file" name="file">
           </div>
           <br>
