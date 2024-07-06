@@ -30,15 +30,9 @@ const fileFilter = (req, file, cb) => {
  
 };
 const  storage  =  multer.diskStorage({ 
-    destination: function (req, file, cb) {
-        cb(null, 'tmp/')
-      },
       filename: function (req, file, cb) {
-        filetype = file.mimetype;
-        
-        if(file.mimetype=='video/mp4'){
+        if(file.mimetype==='video/mp4'){
             cb(null, "tmp.mp4")
-
         }else{
             cb(null,"tmp.wav")
         }
@@ -61,32 +55,28 @@ app.post("/download",upload.single('file'),(req,res,next)=>{
                 res.send('mp4か、wavファイルを選択してください')  
             }
         } catch(err){
-            console.log(req.file.mimetype)
             res.send('mp4か、wavファイルを選択してください')
         }
 
         if (req.file.mimetype==='audio/wav'){
             async function videoTrimming(starttime,duration){
                 //ffmpegを使い、音声ファイルを切り抜き
-                await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp/tmp.wav -t ${duration} -c copy tmp/output.wav`);
-                res.download("tmp/output.wav",(err)=>{
+                await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.wav -t ${duration} -c copy output.wav`);
+                res.download("output.wav",(err)=>{
                     //使い終わった音声ファイルを削除
-                    deleteFile('tmp/tmp.wav');
-                    deleteFile('tmp/output.wav');
-                 console.log("end");
-
+                    deleteFile('tmp.wav');
+                    deleteFile('output.wav');
                 });
             }
             videoTrimming(starttime,duration);
         }else{
             async function videoTrimming(starttime,duration){
                 //ffmpegを使い、音声ファイルを切り抜き
-                await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp/tmp.mp4 -t ${duration} -c copy tmp/output.mp4`);
-                res.download("tmp/output.mp4",(err)=>{
+                await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.mp4 -t ${duration} -c copy output.mp4`);
+                res.download("output.mp4",(err)=>{
                     //使い終わった音声ファイルを削除
-                    deleteFile('tmp/tmp.mp4');
-                    deleteFile('tmp/output.mp4');
-                    console.log("end");
+                    deleteFile('tmp.mp4');
+                    deleteFile('output.mp4');
                 });
             }
             videoTrimming(starttime,duration);
