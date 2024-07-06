@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>youtube切り抜き</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    </head>
+    <style>
+    #urlInput {
+    display: inline-block;
+    width: 100%;
+    padding: 0.5em;
+    border: 3px solid green;
+    box-sizing: border-box;
+    margin: 0.5em 0;
+    }
+    input {
+    display: inline;
+    }
+    #timeInput #fileInput {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.5em 0;
+    }
+    #starttime #endtime {
+    display: block;
+    width: 70%;
+    float: left;
+    border: 2px solid black;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    }
+    </style>
+    <meta name="robots" content="noindex" />
+  <body>
+   
+    <div class="container">
+      <h1>動画、音声切り取り</h1>
+      <p>*選択した動画、音声ファイルを、指定した秒数から、指定した秒数までの切り抜きができます</p>
+      <br>
+      <div class="form-group">
+        <form method="post" action="download" enctype="multipart/form-data">
+          <div>
+            mp4かwavの形式のファイルを選択してください<br>
+            <input id="file" type="file" name="file">
+          </div>
+          <br>
+          <div id="fileoption">
+            <label id="timeInput">
+              切り抜き開始の秒数を記入してください<br>
+              <input id="starttime" type="number" name="starttime" step="0.01" value="">秒
+            </label>
+            <div id="timeInput">
+              切り抜き終わりの秒数を記入してください<br>
+              <input id="endtime" type="number" name="endtime" step="0.01" value="">秒
+            </div>            
+            <input type="submit" value="切り抜いたファイルのダウンロード">  
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
