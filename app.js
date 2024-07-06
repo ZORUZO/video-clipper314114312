@@ -21,6 +21,7 @@ app.get("/", async (req, res, next) => {
 });
 const allowedFileTypes = ['video/mp4','audio/wav'];
 const fileFilter = (req, file, cb) => {
+    //mp4かwav形式以外のファイルはアップロードしないようにする
         if (allowedFileTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
@@ -30,6 +31,7 @@ const fileFilter = (req, file, cb) => {
  
 };
 const  storage  =  multer.diskStorage({ 
+    //ファイルの保管場所の設定
     destination: function (req, file, cb) {
         cb(null, './')
       },
@@ -43,7 +45,7 @@ const  storage  =  multer.diskStorage({
   })
 const upload = multer({ fileFilter:fileFilter,
     storage:storage,
-    limits: { fileSize: 50 * 1024 * 1024 } // 50MB
+    limits: { fileSize: 50 * 1024 * 1024 } //アップロードされる50MBまでに制限
 });
 
 
@@ -74,10 +76,10 @@ app.post("/download",upload.single('file'),(req,res,next)=>{
             videoTrimming(starttime,duration);
         }else{
             async function videoTrimming(starttime,duration){
-                //ffmpegを使い、音声ファイルを切り抜き
+                //ffmpegを使い、動画ファイルを切り抜き
                 await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.mp4 -t ${duration} -c copy output.mp4`);
                 res.download("output.mp4",(err)=>{
-                    //使い終わった音声ファイルを削除
+                    //使い終わった動画ファイルを削除
                     deleteFile('tmp.mp4');
                     deleteFile('output.mp4');
                 });
