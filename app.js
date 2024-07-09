@@ -50,11 +50,7 @@ const upload = multer({ fileFilter:fileFilter,
 
 
 app.post("/download",upload.single('file'),(req,res,next)=>{
-        var starttime= req.body['starttime'];
-        var duration = req.body['endtime']-starttime;
-        if(duration<=0){
-            res.send("切り抜き開始秒数が、切り抜き終了秒数よりも小さくなっています");
-        }
+        
         try{
             if(req.file.mimetype!=='video/mp4' && req.file.mimetype!=='audio/wav'){
                 res.send('mp4か、wavファイルを選択してください')  
@@ -62,30 +58,36 @@ app.post("/download",upload.single('file'),(req,res,next)=>{
         } catch(err){
             res.send('mp4か、wavファイルを選択してください')
         }
-
-        if (req.file.mimetype==='audio/wav'){
-            async function videoTrimming(starttime,duration){
-                //ffmpegを使い、音声ファイルを切り抜き
-                await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.wav -t ${duration} -c copy output.wav`);
-                res.download("output.wav",(err)=>{
-                    //使い終わった音声ファイルを削除
-                    deleteFile('tmp.wav');
-                    deleteFile('output.wav');
-                });
+        var starttime= req.body['starttime'];
+        var duration = req.body['endtime']-starttime;
+        if(duration<=0){
+            res.send("切り抜き開始秒数が、切り抜き終了秒数よりも小さくなっています");
+        } else{
+            if (req.file.mimetype==='audio/wav'){
+                async function videoTrimming(starttime,duration){
+                    //ffmpegを使い、音声ファイルを切り抜き
+                    await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.wav -t ${duration} -c copy output.wav`);
+                    res.download("output.wav",(err)=>{
+                        //使い終わった音声ファイルを削除
+                        deleteFile('tmp.wav');
+                        deleteFile('output.wav');
+                    });
+                }
+                videoTrimming(starttime,duration);
+            }else{
+                async function videoTrimming(starttime,duration){
+                    //ffmpegを使い、動画ファイルを切り抜き
+                    await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.mp4 -t ${duration} -c copy output.mp4`);
+                    res.download("output.mp4",(err)=>{
+                        //使い終わった動画ファイルを削除
+                        deleteFile('tmp.mp4');
+                        deleteFile('output.mp4');
+                    });
+                }
+                videoTrimming(starttime,duration);
             }
-            videoTrimming(starttime,duration);
-        }else{
-            async function videoTrimming(starttime,duration){
-                //ffmpegを使い、動画ファイルを切り抜き
-                await childProcess.execSync(`ffmpeg -nostdin -ss ${starttime} -i tmp.mp4 -t ${duration} -c copy output.mp4`);
-                res.download("output.mp4",(err)=>{
-                    //使い終わった動画ファイルを削除
-                    deleteFile('tmp.mp4');
-                    deleteFile('output.mp4');
-                });
-            }
-            videoTrimming(starttime,duration);
         }
+        
 });
 
 function deleteFile(filePath){
