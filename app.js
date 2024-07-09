@@ -50,18 +50,13 @@ const upload = multer({ fileFilter:fileFilter,
 
 
 app.post("/download",upload.single('file'),(req,res,next)=>{
-        
-        try{
-            if(req.file.mimetype!=='video/mp4' && req.file.mimetype!=='audio/wav'){
-                res.send('mp4か、wavファイルを選択してください')  
-            }
-        } catch(err){
-            res.send('mp4か、wavファイルを選択してください')
-        }
+    if (!req.file) {
+        return res.status(400).send({ message: 'ファイルの種類が無効であるか、ファイルが大きすぎます。' });
+    }
         var starttime= req.body['starttime'];
         var duration = req.body['endtime']-starttime;
         if(duration<=0){
-            res.send("切り抜き開始秒数が、切り抜き終了秒数よりも小さくなっています");
+            return res.status(400).send({ message: '切り抜き開始秒数が、切り抜き終了秒数よりも小さくなっています' });
         } else{
             if (req.file.mimetype==='audio/wav'){
                 async function videoTrimming(starttime,duration){
