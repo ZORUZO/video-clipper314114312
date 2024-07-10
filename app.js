@@ -56,6 +56,8 @@ app.post("/download",upload.single('file'),(req,res,next)=>{
         var starttime= req.body['starttime'];
         var duration = req.body['endtime']-starttime;
         if(duration<=0){
+            deleteFile('tmp.wav');
+            deleteFile('tmp.mp4');
             return res.status(400).send({ message: '切り抜き開始秒数が、切り抜き終了秒数よりも小さくなっています' });
         } else{
             if (req.file.mimetype==='audio/wav'){
