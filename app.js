@@ -30,7 +30,7 @@ const fileFilter = (req, file, cb) => {
   
  
 };
-const  storage  =  multer.diskStorage({ 
+const storage = multer.diskStorage({ 
     //ファイルの保管場所の設定
     destination: function (req, file, cb) {
         cb(null, './')
