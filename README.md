@@ -21,7 +21,7 @@
     ```bash
     npm install
     ```
-3.FFmpegをインストールします:
+3.　FFmpegをインストールします:
 https://www.ffmpeg.org/download.html
 こちらから、ダウンロードしてください
 
