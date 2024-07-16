@@ -21,7 +21,7 @@
     ```bash
     npm install
     ```
-3.　FFmpegをインストールします:
+3. FFmpegをインストールします:
 https://www.ffmpeg.org/download.html
 こちらから、ダウンロードしてください
 
@@ -29,7 +29,7 @@ https://www.ffmpeg.org/download.html
     ```bash
     npm start
     ```
-4
+    
 ## 使い方
 1. プロジェクトを起動した後、ブラウザで `http://localhost:4000` にアクセスします。
 2. MP4もしくはWAV形式のメディアファイルと切り取り開始秒数・終了秒数を入力し、「ダウンロード」ボタンをクリックします。
