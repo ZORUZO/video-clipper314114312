@@ -15,7 +15,7 @@
 ## インストール
 1. リポジトリをクローンします:
     ```bash
-    git clone https://github.com/ユーザー名/リポジトリ名.git
+    git clone https://github.com/ZORUZO/video-clipper314114312.git
     ```
 2. 依存関係をインストールします:
     ```bash
