@@ -21,9 +21,9 @@
     ```bash
     npm install
     ```
+
 3. FFmpegをインストールします:
-https://www.ffmpeg.org/download.html
-こちらから、ダウンロードしてください
+   - [FFmpegのダウンロードページ](https://www.ffmpeg.org/download.html)からFFmpegをダウンロードしてください。
 
 4. プロジェクトを起動します:
     ```bash
